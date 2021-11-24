@@ -8,12 +8,13 @@ import {
   Button,
 } from "@material-ui/core";
 import AddCircleOutlineOutlinedIcon from "@material-ui/icons/AddCircleOutlineOutlined";
-
 import { Formik, Field, Form } from "formik";
-import { validateEmail, isRequired } from "../validateFields/validateFields";
+import { validateEmail, isRequired } from "../../validateFields/validateFields";
 import { Checkbox, Radio } from "antd";
-import { AntInput } from "../createAntd/createAntd.js";
+import { AntInput } from "../../createAntd/createAntd";
 import "antd/dist/antd.css";
+// import MyUpload from "./attachFile";
+import PicturesWall from "./attachFile";
 
 // import * as Yup from "yup";
 const Signup = () => {
@@ -33,15 +34,15 @@ const Signup = () => {
   // const marginTop = { marginTop: 5 };
   const initialValues = {
     profiles: {
-      name: "",
-      phoneNumber: "",
-      email: "",
-      gender: "",
-      password: "",
-      confirmPassword: "",
-      termsAndConditions: "",
+      files: {},
     },
   };
+
+  // const showFileToUpload = (event) => {
+  //   console.log("files", event);
+  //   //then perform some requests to save these images
+  // };
+
   // const validationSchema = Yup.object().shape({
   //   name: Yup.string().min(3, "It's too short").required("Required"),
   //   email: Yup.string().email("Enter valid email").required("Required"),
@@ -84,12 +85,14 @@ const Signup = () => {
         </Grid>
         <Formik initialValues={initialValues} onSubmit={onSubmit}>
           {({
+            setFieldValue,
             handleSubmit,
+            // handleBlur,
             // onChange,
             // submitCount,
             isSubmitting,
-            // values,
-            // handleChange,
+            values,
+            handleChange,
           }) => (
             <Form onSubmit={handleSubmit}>
               <label>Name</label>
@@ -132,7 +135,6 @@ const Signup = () => {
                 type="password"
                 onSubmit={handleSubmit}
                 validate={isRequired}
-                // value={values.name}
                 hasFeedback
               />
               <br />
@@ -144,6 +146,13 @@ const Signup = () => {
                 type="password"
                 validate={isRequired}
                 hasFeedback
+              />
+              <br />
+              <Field
+                component={AntInput.PicturesWall}
+                name="profiles.files.image"
+                onSubmit={handleSubmit}
+                type="file"
               />
               <br />
               <Field

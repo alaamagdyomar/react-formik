@@ -18,8 +18,8 @@ import {
   //AntDatePicker,
   AntInput,
   //AntSelect,
-} from "../createAntd/createAntd.js";
-import { validateEmail, isRequired } from "../validateFields/validateFields";
+} from "../../createAntd/createAntd.js";
+import { validateEmail, isRequired } from "../../validateFields/validateFields";
 
 const Login = ({ handleChange, ...props }) => {
   const paperStyle = {
