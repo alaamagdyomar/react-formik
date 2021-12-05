@@ -13,10 +13,12 @@ import { validateEmail, isRequired } from "../../validateFields/validateFields";
 import { Checkbox, Radio } from "antd";
 import { AntInput } from "../../createAntd/createAntd";
 import "antd/dist/antd.css";
-// import MyUpload from "./attachFile";
 import PicturesWall from "./attachFile";
-
+// import MyUpload from "./attachFile";
+// import PicturesWall from "./attachFile";
+// import TestArt from "./attachFile";
 // import * as Yup from "yup";
+
 const Signup = () => {
   const paperStyle = {
     padding: 20,
@@ -33,14 +35,12 @@ const Signup = () => {
   const avatarStyle = { backgroundColor: "#3f51b5" };
   // const marginTop = { marginTop: 5 };
   const initialValues = {
-    profiles: {
-      files: {},
-    },
+    profiles: {},
   };
 
   // const showFileToUpload = (event) => {
   //   console.log("files", event);
-  //   //then perform some requests to save these images
+  //  // then perform some requests to save these images
   // };
 
   // const validationSchema = Yup.object().shape({
@@ -85,7 +85,6 @@ const Signup = () => {
         </Grid>
         <Formik initialValues={initialValues} onSubmit={onSubmit}>
           {({
-            setFieldValue,
             handleSubmit,
             // handleBlur,
             // onChange,
@@ -149,8 +148,8 @@ const Signup = () => {
               />
               <br />
               <Field
-                component={AntInput.PicturesWall}
-                name="profiles.files.image"
+                component={PicturesWall}
+                name="profiles.files"
                 onSubmit={handleSubmit}
                 type="file"
               />
