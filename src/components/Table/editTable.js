@@ -11,11 +11,27 @@ const EditTable = (props) => {
     setTableData(newData);
   }, []);
 
-  const locations = [];
-
   const { field } = props;
   const [editingItem, setEditingItem] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
+  const [locate, setLocate] = useState([
+    {
+      id: "1",
+      location: "Cairo's Price",
+    },
+    {
+      id: "2",
+      location: "Alex's Price",
+    },
+    {
+      id: "3",
+      location: "sharm's Price",
+    },
+    {
+      id: "4",
+      location: "Herghada's Price",
+    },
+  ]);
   const [dataSource, setDataSource] = useState([
     {
       id: "1",
@@ -42,6 +58,26 @@ const EditTable = (props) => {
       name: "Lemon",
     },
   ]);
+
+  const locations = [
+    {
+      id: "1",
+      location: "Cairo's Price alaa",
+    },
+    {
+      id: "2",
+      location: "Alex's Price",
+    },
+    {
+      id: "3",
+      location: "sharm's Price",
+    },
+    {
+      id: "4",
+      location: "Herghada's Price",
+    },
+  ];
+
   const columns = [
     {
       key: "1",
@@ -50,7 +86,9 @@ const EditTable = (props) => {
     },
     {
       key: "2",
-      title: "Cairo's price",
+      title: () => {
+        return <div>{locate[0].location}</div>;
+      },
       // dataIndex: "tea.location.cairo.price",
       render: (row) => {
         return <Field name={`items.${row.name}.location.cairo.price`} />;
@@ -58,7 +96,9 @@ const EditTable = (props) => {
     },
     {
       key: "3",
-      title: "Alexandria's Price",
+      title: () => {
+        return <div>{locate[1].location}</div>;
+      },
       // dataIndex: "egyptPrice",
       render: (row) => {
         return <Field name={`items.${row.name}.location.alex.price`} />;
@@ -66,7 +106,9 @@ const EditTable = (props) => {
     },
     {
       key: "4",
-      title: "Sharm 's Price",
+      title: () => {
+        return <div>{locate[2].location}</div>;
+      },
       // dataIndex: "ksaPrice",
       render: (row) => {
         return <Field name={`items.${row.name}.location.sharm.price`} />;
@@ -74,7 +116,9 @@ const EditTable = (props) => {
     },
     {
       key: "5",
-      title: "Herghada 's Price",
+      title: () => {
+        return <div>{locate[3].location}</div>;
+      },
       // dataIndex: "herghada",
       render: (row) => {
         return <Field name={`items.${row.name}.location.herghada.price`} />;
