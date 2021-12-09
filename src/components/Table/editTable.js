@@ -1,74 +1,45 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "antd/dist/antd.css";
 import { Table, Tag, Space, Input, Button, Modal } from "antd";
-import InputField from "./inputField";
-import { values } from "ramda";
+import { Field } from "formik";
+import SelectSizesDemo from "./select";
 // import { items } from "./data";
 
 const EditTable = (props) => {
+  useEffect(() => {
+    const newData = [...tableData];
+    setTableData(newData);
+  }, []);
+
+  const locations = [];
+
   const { field } = props;
   const [editingItem, setEditingItem] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [dataSource, setDataSource] = useState([
     {
-      id: "0",
-      name: "Tea",
-      location: {
-        cairo: { price: 125 },
-        alex: { price: 622 },
-        sharm: { price: 514 },
-        herghada: { price: 888 },
-      },
-    },
-    {
       id: "1",
-      name: "Nescafe",
-      location: {
-        cairo: { price: 225 },
-        alex: { price: 541 },
-        sharm: { price: 614 },
-        herghada: { price: 888 },
-      },
+      name: "Tea",
     },
     {
       id: "2",
-      name: "Coffe",
-      location: {
-        cairo: { price: 215 },
-        alex: { price: 684 },
-        sharm: { price: 557 },
-        herghada: { price: 872 },
-      },
+      name: "Nescafe",
     },
     {
       id: "3",
-      name: "HotChocolate",
-      location: {
-        cairo: { price: 214 },
-        alex: { price: 862 },
-        sharm: { price: 996 },
-        herghada: { price: 856 },
-      },
+      name: "Coffe",
     },
     {
       id: "4",
-      name: "Mango",
-      location: {
-        cairo: { price: 200 },
-        alex: { price: 400 },
-        sharm: { price: 600 },
-        herghada: { price: 984 },
-      },
+      name: "HotChocolate",
     },
     {
       id: "5",
+      name: "Mango",
+    },
+    {
+      id: "6",
       name: "Lemon",
-      location: {
-        cairo: { price: 255 },
-        alex: { price: 336 },
-        sharm: { price: 554 },
-        herghada: { price: 854 },
-      },
     },
   ]);
   const columns = [
@@ -80,55 +51,50 @@ const EditTable = (props) => {
     {
       key: "2",
       title: "Cairo's price",
-      dataIndex: "location",
-      render: (d, row) => {
-        const { location } = row;
-        return location ? (
-          <InputField value={field.value} placeholder={location.cairo.price} />
-        ) : (
-          <Input value={field.value} placeholder={"enter price"} />
-        );
+      // dataIndex: "tea.location.cairo.price",
+      render: (row) => {
+        return <Field name={`items.${row.name}.location.cairo.price`} />;
       },
     },
     {
       key: "3",
       title: "Alexandria's Price",
-      dataIndex: "egyptPrice",
-      render: (d, row) => {
-        const { location } = row;
-        return location ? (
-          <InputField value={field.value} placeholder={location.alex.price} />
-        ) : (
-          <InputField value={field.value} placeholder={"enter price"} />
-        );
+      // dataIndex: "egyptPrice",
+      render: (row) => {
+        return <Field name={`items.${row.name}.location.alex.price`} />;
       },
     },
     {
       key: "4",
       title: "Sharm 's Price",
-      dataIndex: "ksaPrice",
-      render: (d, row) => {
-        const { location } = row;
-        return location ? (
-          <InputField value={field.value} placeholder={location.sharm.price} />
-        ) : (
-          <InputField value={field.value} placeholder={"enter price"} />
-        );
+      // dataIndex: "ksaPrice",
+      render: (row) => {
+        return <Field name={`items.${row.name}.location.sharm.price`} />;
       },
     },
     {
       key: "5",
-      title: "Dubai 's Price",
-      dataIndex: "dubaiPrice",
-      render: (d, row) => {
-        const { location } = row;
-        return location ? (
-          <InputField
-            value={field.value}
-            placeholder={location.herghada.price}
-          />
-        ) : (
-          <InputField value={field.value} placeholder={"enter price"} />
+      title: "Herghada 's Price",
+      // dataIndex: "herghada",
+      render: (row) => {
+        return <Field name={`items.${row.name}.location.herghada.price`} />;
+      },
+    },
+    {
+      key: "6",
+      title: "Select",
+      render: (row) => {
+        const { handleSubmit } = props;
+        return (
+          <>
+            <Field
+              component={SelectSizesDemo}
+              onSubmit={handleSubmit}
+              name={`items.${row.name}.options`}
+            />
+            <br />
+            <Field name={`items.${row.name}.active`} type="checkbox" />
+          </>
         );
       },
     },
@@ -150,6 +116,7 @@ const EditTable = (props) => {
       target: { name: field.name, value: dataSource },
     });
   };
+
   // handle delete
   const deleteRecord = (record) => {
     Modal.confirm({
@@ -176,19 +143,28 @@ const EditTable = (props) => {
     setEditingItem(null);
   };
 
-  const formikSubmit = ({ dataSource }) => {
-    console.log("dataSource =>", dataSource);
-    console.log(
-      field.onChange({
-        target: { name: field.name, value: dataSource },
-      })
-    );
+  // handle input change
+  const [tableData, setTableData] = useState(dataSource);
+  // const inputChange = (key, index) => (e) => {
+  //   console.log("key =", key);
+  //   console.log("index =", index);
+  //   const newData = [...tableData];
+  //   console.log("newData =>", newData);
+
+  //   newData[index.id][key] = e.target.value;
+  //   setTableData(newData);
+  // };
+
+  const formikSubmit = ({ tableData }) => {
+    field.onChange({
+      target: { name: field.name, value: tableData },
+    });
   };
   return (
     <>
       <Button onClick={onAddNewRecord}>Add new</Button>
       <Table columns={columns} dataSource={dataSource} />
-      <Button onClick={formikSubmit}>Submit to formikkkk</Button>
+      {/* <Button onClick={formikSubmit}>From Table to Formikkkk</Button> */}
     </>
   );
 };

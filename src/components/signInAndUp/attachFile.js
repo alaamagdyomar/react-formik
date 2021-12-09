@@ -45,16 +45,9 @@ class PicturesWall extends React.Component {
   };
 
   handleChange = ({ fileList }) => {
-    // this.setState({ fileList });
-    // this.setState({
-    //   fileList,
-    // });
-    console.log("props.field.value =", this.props.field.value);
     this.props.field.onChange({
       target: { name: this.props.field.name, value: fileList },
     });
-    // console.log("props =", this.props.field.onChange);
-    // console.log("name =", this.props.field.value);
   };
 
   // this.setState({ fileList });

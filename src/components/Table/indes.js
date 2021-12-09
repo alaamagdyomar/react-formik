@@ -20,13 +20,8 @@ const RenderTable = () => {
   return (
     <Formik initialValues={initialValues} onSubmit={onSubmit}>
       {({ handleSubmit, isSubmitting }) => (
-        <Form>
-          <Field
-            component={EditTable}
-            name="table.item"
-            onSubmit={handleSubmit}
-            hasFeedback
-          />
+        <Form onSubmit={handleSubmit}>
+          <EditTable handleSubmit={handleSubmit} />
           <br />
           <Button
             type="submit"
