@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "antd/dist/antd.css";
-import { Table, Tag, Space, Input, Button, Modal } from "antd";
+import { Table, Button, Modal } from "antd";
 import { Field } from "formik";
 import SelectSizesDemo from "./select";
-import { v4 as uuid } from "uuid";
-
-// import { items } from "./data";
 
 const EditTable = (props) => {
   useEffect(() => {
@@ -20,18 +17,27 @@ const EditTable = (props) => {
     {
       id: "1",
       location: "Cairo's Price",
+      type: "input",
     },
     {
       id: "2",
       location: "Alex's Price",
+      type: "input",
     },
     {
       id: "3",
       location: "sharm's Price",
+      type: "input",
     },
     {
       id: "4",
       location: "Herghada's Price",
+      type: "input",
+    },
+    {
+      id: "5",
+      location: "Options",
+      type: "select",
     },
   ]);
   const [dataSource, setDataSource] = useState([
@@ -61,46 +67,6 @@ const EditTable = (props) => {
     },
   ]);
 
-  const tableHeader = [
-    {
-      id: "0",
-      title: "items",
-    },
-    {
-      id: "1",
-      title: "Cairo's Price alaa",
-    },
-    {
-      id: "2",
-      title: "Alex's Price",
-    },
-    {
-      id: "3",
-      title: "sharm's Price",
-    },
-    {
-      id: "4",
-      title: "Herghada's Price",
-    },
-    {
-      id: "5",
-      title: "downtown",
-    },
-    {
-      id: "6",
-      title: "newCairo",
-    },
-    {
-      id: "7",
-      title: "Select",
-    },
-  ];
-  const keys = tableHeader.map((item) => item.id);
-  const columnTitle = tableHeader.map((item) => item.title);
-  const renderInput = (row) => {
-    <Field name={`items.${row.name}`} />;
-  };
-
   const columns = [
     {
       key: "1",
@@ -111,79 +77,26 @@ const EditTable = (props) => {
       key: loc.id,
       title: loc.location,
       render: (row) => {
-        return (
-          <>
-            <Field
-              component={SelectSizesDemo}
-              name={`items.${row.name}.${loc.location}.options`}
-            />
-            <br />
-            <Field
-              name={`items.${row.name}.${loc.location}.active`}
-              type="checkbox"
-            />
-          </>
-        );
+        if (loc.type === "input") {
+          return <Field name={`items.${row.name}.${loc.location}`} />;
+        }
+        if (loc.type === "select") {
+          return (
+            <>
+              <Field
+                component={SelectSizesDemo}
+                name={`items.${row.name}.${loc.location}.options`}
+              />
+              <br />
+              <Field
+                name={`items.${row.name}.${loc.location}.active`}
+                type="checkbox"
+              />
+            </>
+          );
+        }
       },
     })),
-    // {
-    //   key: "2",
-    //   title: () => {
-    //     return <div>{locate[0].location}</div>;
-    //   },
-    //   // dataIndex: "tea.location.cairo.price",
-    //   render: (row) => {
-    //     return <Field name={`items.${row.name}.location.cairo.price`} />;
-    //   },
-    // },
-    // {
-    //   key: "3",
-    //   title: () => {
-    //     return <div>{locate[1].location}</div>;
-    //   },
-    //   // dataIndex: "egyptPrice",
-    //   render: (row) => {
-    //     return <Field name={`items.${row.name}.location.alex.price`} />;
-    //   },
-    // },
-    // {
-    //   key: "4",
-    //   title: () => {
-    //     return <div>{locate[2].location}</div>;
-    //   },
-    //   // dataIndex: "ksaPrice",
-    //   render: (row) => {
-    //     return <Field name={`items.${row.name}.location.sharm.price`} />;
-    //   },
-    // },
-    // {
-    //   key: "5",
-    //   title: () => {
-    //     return <div>{locate[3].location}</div>;
-    //   },
-    //   // dataIndex: "herghada",
-    //   render: (row) => {
-    //     return <Field name={`items.${row.name}.location.herghada.price`} />;
-    //   },
-    // },
-    // {
-    //   key: "6",
-    //   title: "Select",
-    //   render: (row) => {
-    //     const { handleSubmit } = props;
-    //     return (
-    //       <>
-    //         <Field
-    //           component={SelectSizesDemo}
-    //           onSubmit={handleSubmit}
-    //           name={`items.${row.name}.options`}
-    //         />
-    //         <br />
-    //         <Field name={`items.${row.name}.active`} type="checkbox" />
-    //       </>
-    //     );
-    //   },
-    // },
   ];
 
   // handle add
@@ -192,15 +105,16 @@ const EditTable = (props) => {
     const newRecord = {
       id: randomNumber,
       name: "Joe Black" + randomNumber,
-      location: {} + randomNumber,
     };
+    console.log("newRecord =", newRecord);
     setDataSource((pre) => {
       let newData = [...pre, newRecord];
       return newData;
     });
-    props.field.onChange({
-      target: { name: field.name, value: dataSource },
-    });
+    // props.field.onChange({
+    //   target: { name: field.name, value: dataSource },
+    // });
+    return dataSource;
   };
 
   // handle delete
@@ -231,30 +145,17 @@ const EditTable = (props) => {
 
   // handle input change
   const [tableData, setTableData] = useState(dataSource);
-  // const inputChange = (key, index) => (e) => {
-  //   console.log("key =", key);
-  //   console.log("index =", index);
-  //   const newData = [...tableData];
-  //   console.log("newData =>", newData);
-
-  //   newData[index.id][key] = e.target.value;
-  //   setTableData(newData);
-  // };
 
   const formikSubmit = ({ tableData }) => {
     field.onChange({
       target: { name: field.name, value: tableData },
     });
   };
-  const columnsProps = (props, columns) => {
-    console.log("props from col=", props);
-    return columns;
-  };
+
   return (
     <>
       <Button onClick={onAddNewRecord}>Add new</Button>
       <Table columns={columns} dataSource={dataSource} />
-      {/* <Button onClick={formikSubmit}>From Table to Formikkkk</Button> */}
     </>
   );
 };

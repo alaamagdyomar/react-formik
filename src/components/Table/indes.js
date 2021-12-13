@@ -4,9 +4,7 @@ import EditTable from "./editTable";
 import { Button } from "antd";
 
 const RenderTable = () => {
-  const initialValues = {
-    table: {},
-  };
+  const initialValues = {};
   const btnstyle = { margin: "8px 0", backgroundColor: "blue", color: "white" };
 
   const onSubmit = (values, props) => {
@@ -21,7 +19,7 @@ const RenderTable = () => {
     <Formik initialValues={initialValues} onSubmit={onSubmit}>
       {({ handleSubmit, isSubmitting }) => (
         <Form onSubmit={handleSubmit}>
-          <EditTable handleSubmit={handleSubmit} />
+          <EditTable onSubmit={handleSubmit} />
           <br />
           <Button
             type="submit"
