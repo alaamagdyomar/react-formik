@@ -1,5 +1,6 @@
 import React from "react";
 import "./App.css";
+// import HandleColumn from "./components/Table/columns";
 import RenderTable from "./components/Table/indes";
 
 // import SignInOutContainer from "./containers";
@@ -12,6 +13,7 @@ class App extends React.Component {
       <div className="App">
         <div>
           <RenderTable />
+          {/* <HandleColumn /> */}
         </div>
         {/* <SignInOutContainer /> */}
         {/* <InviteFriends /> */}

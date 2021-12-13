@@ -3,6 +3,8 @@ import "antd/dist/antd.css";
 import { Table, Tag, Space, Input, Button, Modal } from "antd";
 import { Field } from "formik";
 import SelectSizesDemo from "./select";
+import { v4 as uuid } from "uuid";
+
 // import { items } from "./data";
 
 const EditTable = (props) => {
@@ -59,24 +61,45 @@ const EditTable = (props) => {
     },
   ]);
 
-  const locations = [
+  const tableHeader = [
+    {
+      id: "0",
+      title: "items",
+    },
     {
       id: "1",
-      location: "Cairo's Price alaa",
+      title: "Cairo's Price alaa",
     },
     {
       id: "2",
-      location: "Alex's Price",
+      title: "Alex's Price",
     },
     {
       id: "3",
-      location: "sharm's Price",
+      title: "sharm's Price",
     },
     {
       id: "4",
-      location: "Herghada's Price",
+      title: "Herghada's Price",
+    },
+    {
+      id: "5",
+      title: "downtown",
+    },
+    {
+      id: "6",
+      title: "newCairo",
+    },
+    {
+      id: "7",
+      title: "Select",
     },
   ];
+  const keys = tableHeader.map((item) => item.id);
+  const columnTitle = tableHeader.map((item) => item.title);
+  const renderInput = (row) => {
+    <Field name={`items.${row.name}`} />;
+  };
 
   const columns = [
     {
@@ -84,64 +107,83 @@ const EditTable = (props) => {
       title: "items",
       dataIndex: "name",
     },
-    {
-      key: "2",
-      title: () => {
-        return <div>{locate[0].location}</div>;
-      },
-      // dataIndex: "tea.location.cairo.price",
+    ...locate.map((loc) => ({
+      key: loc.id,
+      title: loc.location,
       render: (row) => {
-        return <Field name={`items.${row.name}.location.cairo.price`} />;
-      },
-    },
-    {
-      key: "3",
-      title: () => {
-        return <div>{locate[1].location}</div>;
-      },
-      // dataIndex: "egyptPrice",
-      render: (row) => {
-        return <Field name={`items.${row.name}.location.alex.price`} />;
-      },
-    },
-    {
-      key: "4",
-      title: () => {
-        return <div>{locate[2].location}</div>;
-      },
-      // dataIndex: "ksaPrice",
-      render: (row) => {
-        return <Field name={`items.${row.name}.location.sharm.price`} />;
-      },
-    },
-    {
-      key: "5",
-      title: () => {
-        return <div>{locate[3].location}</div>;
-      },
-      // dataIndex: "herghada",
-      render: (row) => {
-        return <Field name={`items.${row.name}.location.herghada.price`} />;
-      },
-    },
-    {
-      key: "6",
-      title: "Select",
-      render: (row) => {
-        const { handleSubmit } = props;
         return (
           <>
             <Field
               component={SelectSizesDemo}
-              onSubmit={handleSubmit}
-              name={`items.${row.name}.options`}
+              name={`items.${row.name}.${loc.location}.options`}
             />
             <br />
-            <Field name={`items.${row.name}.active`} type="checkbox" />
+            <Field
+              name={`items.${row.name}.${loc.location}.active`}
+              type="checkbox"
+            />
           </>
         );
       },
-    },
+    })),
+    // {
+    //   key: "2",
+    //   title: () => {
+    //     return <div>{locate[0].location}</div>;
+    //   },
+    //   // dataIndex: "tea.location.cairo.price",
+    //   render: (row) => {
+    //     return <Field name={`items.${row.name}.location.cairo.price`} />;
+    //   },
+    // },
+    // {
+    //   key: "3",
+    //   title: () => {
+    //     return <div>{locate[1].location}</div>;
+    //   },
+    //   // dataIndex: "egyptPrice",
+    //   render: (row) => {
+    //     return <Field name={`items.${row.name}.location.alex.price`} />;
+    //   },
+    // },
+    // {
+    //   key: "4",
+    //   title: () => {
+    //     return <div>{locate[2].location}</div>;
+    //   },
+    //   // dataIndex: "ksaPrice",
+    //   render: (row) => {
+    //     return <Field name={`items.${row.name}.location.sharm.price`} />;
+    //   },
+    // },
+    // {
+    //   key: "5",
+    //   title: () => {
+    //     return <div>{locate[3].location}</div>;
+    //   },
+    //   // dataIndex: "herghada",
+    //   render: (row) => {
+    //     return <Field name={`items.${row.name}.location.herghada.price`} />;
+    //   },
+    // },
+    // {
+    //   key: "6",
+    //   title: "Select",
+    //   render: (row) => {
+    //     const { handleSubmit } = props;
+    //     return (
+    //       <>
+    //         <Field
+    //           component={SelectSizesDemo}
+    //           onSubmit={handleSubmit}
+    //           name={`items.${row.name}.options`}
+    //         />
+    //         <br />
+    //         <Field name={`items.${row.name}.active`} type="checkbox" />
+    //       </>
+    //     );
+    //   },
+    // },
   ];
 
   // handle add
@@ -203,6 +245,10 @@ const EditTable = (props) => {
     field.onChange({
       target: { name: field.name, value: tableData },
     });
+  };
+  const columnsProps = (props, columns) => {
+    console.log("props from col=", props);
+    return columns;
   };
   return (
     <>
