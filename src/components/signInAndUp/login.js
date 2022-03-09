@@ -61,14 +61,7 @@ const Login = ({ handleChange, ...props }) => {
           <h2>Sign In</h2>
         </Grid>
         <Formik initialValues={initialValues} onSubmit={onSubmit}>
-          {({
-            handleSubmit,
-            // onChange,
-            // submitCount,
-            isSubmitting,
-            values,
-            // handleChange,
-          }) => (
+          {({ handleSubmit, isSubmitting, values }) => (
             <Form onSubmit={handleSubmit}>
               <label>E-mail</label>
               <Field
