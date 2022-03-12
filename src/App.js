@@ -1,6 +1,7 @@
 import React from "react";
 import "./App.css";
-import Fetch from "./components/hooks/fetch/Fetch";
+// import Fetch from "./components/hooks/fetch/Fetch";
+import Reducer from "./components/hooks/useReducer/reducer";
 // import HandleColumn from "./components/Table/columns";
 // import RenderTable from "./components/Table/indes";
 // import Charts from "./components/charts";
@@ -15,7 +16,8 @@ class App extends React.Component {
     return (
       <div className="App">
         <div className="table">
-          <Fetch />
+          <Reducer />
+          {/* <Fetch /> */}
           {/* <Hooks /> */}
           {/* <Visual /> */}
           {/* <RenderTable /> */}
