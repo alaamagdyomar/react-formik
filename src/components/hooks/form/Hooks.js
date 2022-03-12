@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import { useForm } from "./useForm";
 import "./form.css";
 
@@ -9,6 +9,11 @@ const Hooks = () => {
     firstName: "",
     secondName: "",
   });
+
+  useEffect(() => {
+    console.log("render again");
+    localStorage.setItem("formData", JSON.stringify(values));
+  }, []);
 
   return (
     <div className="form">
